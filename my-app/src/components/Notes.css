@@ -1,0 +1,12 @@
+
+.delete-btn {
+    width: 10px;
+}
+
+.delete-btn:hover {
+    filter: invert(18%) sepia(99%) saturate(6717%) hue-rotate(359deg) brightness(112%) contrast(118%);
+
+
+
+
+}

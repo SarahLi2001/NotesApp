@@ -1,34 +1,38 @@
 import React, { Component, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import axios from 'axios';
+import X from '../x-symbol-svgrepo-com.svg'
 
-const Todo = (props: any)=> (
-    <tr>
-        <td>{props.todo.todo_responsible}</td>
-        <td>{props.todo.todo_description.substring(0,70)}</td>
-        <td >{props.todo.todo_priority}</td>
-        <td>
-            <Link to={"/edit/"+props.todo._id}>Edit</Link>
-        </td>
-        <td>
-        <button value= {props.todo._id} onClick={()=>{handleClick(props.todo._id)}}>DELETE
-      </button>        
-      </td>
+import './Notes.css'
 
-    </tr>
-)
-
-      //  <td>{() => {shortenLength(props.todo.todo_description)}}</td>
-
-
-
-function handleClick(e: any) {
-    axios.delete('http://localhost:4000/todos/'+e)
-            .then(response => window.location.reload());
-}
 
 function Notes(){
+    const history = useHistory();
 
+
+    const Todo = (props: any)=> (
+        <tr onClick={() => redirect(props)}>
+            <td>{props.todo.todo_responsible}</td>
+            <td>{props.todo.todo_description.substring(0,70)}</td>
+            <td >{props.todo.todo_priority}</td>
+            <td>
+            <img className='delete-btn'  src={X} onClick={()=>{deleteNote(props.todo._id)}}/>
+          </td>
+    
+        </tr>
+    )
+    
+          //  <td>{() => {shortenLength(props.todo.todo_description)}}</td>
+    
+    
+    function redirect(props: any) {
+        history.push("/edit/"+props.todo._id)
+    }     
+    
+    function deleteNote(e: any) {
+        axios.delete('http://localhost:4000/todos/'+e)
+                .then(response => window.location.reload());
+    }
   
     
     const [todos, setTodos] = useState([]);
@@ -64,7 +68,7 @@ function Notes(){
     }
 
         return (
-            <div>
+            <div className='test'>
                 <h3>Notes</h3>
                 {/* <button onClick={handleClick}>Delete Selected
       </button>   */}
